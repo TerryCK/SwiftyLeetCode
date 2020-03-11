@@ -24,8 +24,8 @@
 class Solution {
     /*
      Mindset:
-     user count and Set of chracter to track times of seen characters
-    
+     using count and Set of chracter to track times of seen characters
+     
      Time complex: O(n^2), space complex: O(n)
      */
     
@@ -45,11 +45,41 @@ class Solution {
         }
         return count
     }
+    
+    /*
+    Mindset:
+    use indices of start and end with move index of end to iterator and insert element to Set of seen if find,
+    Otherwise clear out by move index of start and calculate longest count, until index of end equal to string end.
+    Time complex: O(n), space complex: O(n)
+    */
+    func lengthOfLongestSubstring2(_ s: String) -> Int {
+        let s = Array(s)
+        var start : Int = 0
+        var end : Int = 0
+        var seen: Set<Character> = []
+        var longest: Int = 0
+        
+        
+        while end < s.count {
+            if seen.contains(s[end]) {
+                seen.remove(s[start])
+                start += 1
+            } else {
+                longest = max(longest, end - start)
+                seen.insert(s[end])
+                end += 1
+            }
+        }
+        
+        return max(longest, end - start)
+    }
+    
 }
 
 let a = "abcabcbb"
 let b = "bbbbb"
 let c = "pwwkew"
 let d = " "
-Solution().lengthOfLongestSubstring(d)
+Solution().lengthOfLongestSubstring2(d)
+
 //[a,b, c, d].map(Solution().lengthOfLongestSubstring)
